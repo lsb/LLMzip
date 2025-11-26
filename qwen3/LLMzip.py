@@ -4,10 +4,7 @@
 from typing import List
 import torch
 import numpy as np
-import pandas as pd
 import zlib
-import sys
-import binascii
 import json
 
 from qwen3.tokenizer import Qwen3Tokenizer
@@ -301,6 +298,8 @@ class Qwen3_decode:
             ranks_compressed = file_in.read()
         
         ranks_decomp = zlib.decompress(ranks_compressed).decode('ascii')
+        # Use np.fromstring for compatibility with existing compressed files
+        # Note: This is deprecated but matches the LLaMA implementation
         ranks_in = np.fromstring(ranks_decomp, sep=' ', dtype=np.int64)
         
         bsz = 1  # Predicts 1 token at a time
