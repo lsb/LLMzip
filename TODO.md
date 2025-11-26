@@ -6,7 +6,7 @@
 - [x] Clone Qwen3-0.6B repository from GitHub.com/lsb/Qwen3-0.6B
 - [x] Run `make concat` in the Qwen3-0.6B repository to assemble model files
 - [x] Verify Qwen3-0.6B model loads correctly with HuggingFace Transformers
-- [ ] Create LLMzip inference wrapper for Qwen3-0.6B (similar to existing LLaMA wrapper)
+- [x] Create LLMzip inference wrapper for Qwen3-0.6B (similar to existing LLaMA wrapper)
 - [ ] Implement zstandard level 19 compression for baseline comparison
 - [ ] Create compression ratio comparison script (LLMzip+Qwen3 vs zstd-19)
 - [ ] Download enwik9 dataset for standardized compression benchmarking
