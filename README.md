@@ -35,7 +35,7 @@ For a more accessible setup using the Qwen3-0.6B model, follow these steps:
    ```
    This will load the model and run a simple inference test to confirm everything works.
 
-**Note**: The Qwen3-0.6B model requires ~1.5GB of disk space and ~2GB of RAM for inference.
+**Note**: The Qwen3-0.6B model requires Python 3.9+, ~1.5GB of disk space and ~2GB of RAM for inference.
 
 ## Compression
 
