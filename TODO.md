@@ -1,30 +1,47 @@
-# TODO: ONNX Multi-language Integration
+# TODO: LLMzip Development
 
-## Immediate
+## Current Priority: Qwen3-0.6B Integration & Compression Ratio Comparison
+
+### Immediate Tasks
+- [ ] Clone Qwen3-0.6B repository from GitHub.com/lsb/Qwen3-0.6B
+- [ ] Run `make concat` in the Qwen3-0.6B repository to assemble model files
+- [ ] Verify Qwen3-0.6B model loads correctly with HuggingFace Transformers
+- [ ] Create LLMzip inference wrapper for Qwen3-0.6B (similar to existing LLaMA wrapper)
+- [ ] Implement zstandard level 19 compression for baseline comparison
+- [ ] Create compression ratio comparison script (LLMzip+Qwen3 vs zstd-19)
+- [ ] Download enwik9 dataset for standardized compression benchmarking
+- [ ] Select test corpus for benchmarking (enwik9: 1MB/10MB/100MB, code, structured data)
+- [ ] Run comprehensive benchmarks on enwik9 (1MB, 10MB, 100MB) and document results
+- [ ] Generate comparison report with charts and analysis
+
+### Near-term
+- [ ] Optimize Qwen3-0.6B inference performance for compression
+- [ ] Test with various file types and document compression characteristics
+- [ ] Add CLI flags for model selection (LLaMA vs Qwen3)
+- [ ] Document memory requirements and performance trade-offs
+- [ ] Add automated tests for Qwen3 integration
+
+### Future: ONNX Multi-language Integration (Deferred)
+> **Note**: ONNX integration is deferred until after Qwen3-0.6B baseline is established
+
 - [ ] Add an initial `pyproject.toml` configured for `uv` to manage Python dependencies (pin `onnxruntime`, `transformers`, and tooling) and wire CI to run `uv sync`.
-- [ ] Download and vendor `model_q4f16.onnx` plus tokenizer files for offline use (or document caching path) and record SHA256 in the plan (fail CI if the hash differs from the recorded value).
-- [ ] Inspect ONNX graph inputs to confirm dynamic batch/sequence axes; document supported batch sizes and wire warnings if static shapes force batch size = 1, and validate that logits outputs expose the same symbolic batch dimension.
-- [ ] Add Python ONNX runtime wrapper that outputs next-token log-probs and exposes a `--self-check` that prints input shapes and provider info; include a `--verify-sha` option that recomputes the ONNX hash before running.
-- [ ] Add JavaScript (Node + browser) ONNX runtime path using `transformers.js`, including a metadata dump script mirroring the Python self-check and a startup hash check that matches the recorded SHA.
-- [ ] Create shared tokenizer loader ensuring identical preprocessing across Python and JS.
-- [ ] Implement cross-language round-trip test: compress `seq 1 1000` in Python, decompress in JS; repeat inverse direction with strict tokenizer/version parity and log-prob tolerance checks.
-- [ ] Add automated test target (e.g., `npm test` + `pytest`) to run both directions in CI.
+- [ ] Export Qwen3-0.6B to ONNX format (or download SmolLM2-135M-Instruct ONNX checkpoint)
+- [ ] Add Python ONNX runtime wrapper that outputs next-token log-probs
+- [ ] Add JavaScript (Node + browser) ONNX runtime path using `transformers.js`
+- [ ] Create shared tokenizer loader ensuring identical preprocessing across Python and JS
+- [ ] Implement cross-language round-trip test: compress in Python, decompress in JS
+- [ ] Benchmark CPU latency for both languages; record baseline numbers
+- [ ] Explore WebGPU backend in browsers for potential speedup
 
-## Near-term
-- [ ] Provide CLI/README instructions for running the ONNX-based compression test offline.
-- [ ] Expose batch size configuration, defaulting to 1 until dynamic support is verified, with guardrails if ONNX shapes are static.
-- [ ] Add model integrity checksums for ONNX artifacts.
-- [ ] Benchmark CPU latency for both languages; record baseline numbers.
-- [ ] Explore WebGPU backend in browsers for potential speedup.
-
-## Quantization Expansion
-- [ ] Script an ONNX export pipeline for arbitrary HF models with dynamic axes preserved.
-- [ ] Implement 4-bit quantization using `MatMulNBits` and `GatherNBits` (group size 16 for weights and embeddings).
-- [ ] Add validation comparing quantized vs FP16 logits on a small corpus; gate acceptance on acceptable KL divergence/perplexity delta.
-- [ ] Ensure generated ONNX graphs remain compatible with `onnxruntime-web` (opset coverage, kernel availability).
-- [ ] Package artifacts for browser delivery (chunked weights or `transformers.js` hub format).
+### Future: Quantization Experiments
+- [ ] Experiment with 4-bit and 8-bit quantization of Qwen3-0.6B
+- [ ] Compare compression ratios: FP16 vs quantized models
+- [ ] Measure speed improvements from quantization
+- [ ] Script an ONNX export pipeline for arbitrary HF models with quantization
+- [ ] Ensure quantized models maintain acceptable compression ratios
 
 ## Open Questions
-- [ ] Confirm best practice for sharing tokenizer files between Python and JS without duplicating assets.
-- [ ] Decide on compression format for probability outputs (e.g., JSON + binary sidecar) to keep round-trip deterministic.
-- [ ] Evaluate whether to include beam/temperature controls in the ONNX wrapper or enforce greedy decoding for reproducibility.
+- [ ] What is the optimal context window size for Qwen3-0.6B in compression tasks?
+- [ ] How does compression ratio scale with model size (0.6B vs larger models)?
+- [ ] What types of data benefit most from LLM-based compression vs traditional methods?
+- [ ] Should we support streaming compression for large files?
