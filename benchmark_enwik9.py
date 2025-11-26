@@ -23,11 +23,13 @@ import time
 import tempfile
 import urllib.request
 import argparse
+import zipfile
 from pathlib import Path
 from datetime import datetime
-from typing import Dict, List, Tuple, Any
+from typing import Dict, List, Any
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
@@ -81,7 +83,6 @@ def download_enwik9(data_dir: str) -> str:
     
     # Extract
     print("Extracting enwik9.zip...")
-    import zipfile
     with zipfile.ZipFile(zip_path, 'r') as zip_ref:
         zip_ref.extractall(data_dir)
     
@@ -447,8 +448,6 @@ def generate_charts(
     Returns:
         List of generated chart file paths
     """
-    import matplotlib.pyplot as plt
-    
     chart_paths = []
     
     for win_len in sorted(aggregated.keys()):
@@ -536,8 +535,6 @@ def generate_summary_chart(
     Returns:
         Path to generated chart
     """
-    import matplotlib.pyplot as plt
-    
     fig, ax = plt.subplots(figsize=(12, 8))
     
     colors = plt.cm.viridis(np.linspace(0, 1, len(aggregated)))
