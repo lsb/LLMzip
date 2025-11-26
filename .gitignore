@@ -50,3 +50,7 @@ Thumbs.db
 # Temporary files
 tmp/
 *.tmp
+
+# Benchmark data and results
+data/
+benchmark_results/

@@ -9,9 +9,14 @@
 - [x] Create LLMzip inference wrapper for Qwen3-0.6B (similar to existing LLaMA wrapper)
 - [ ] Implement zstandard level 19 compression for baseline comparison
 - [ ] Create compression ratio comparison script (LLMzip+Qwen3 vs zstd-19)
-- [ ] Download enwik9 dataset for standardized compression benchmarking
-- [ ] Select test corpus for benchmarking (enwik9: 1MB/10MB/100MB, code, structured data)
-- [ ] Run comprehensive benchmarks on enwik9 (1MB, 10MB, 100MB) and document results
+- [x] Download enwik9 dataset for standardized compression benchmarking (via `benchmark_enwik9.py`)
+- [x] Create comprehensive enwik9 benchmark script (`benchmark_enwik9.py`)
+  - **Text sizes**: 1K, 2K, 4K, 8K, 16K, 32K, 64K bytes
+  - **Starting positions**: 0, 100M, 200M, 300M, 400M, 500M, 600M, 700M, 800M, 900M (10 positions)
+  - **Window lengths**: 8, 16, 32, 64, 128, 256, 512, 1024
+  - **Metrics**: Compression ratio, decompression timing, bits per character
+  - **Outputs**: Raw JSON results, aggregated results (averaged over positions), PNG charts per window length
+- [ ] Run comprehensive benchmarks and document results
 - [ ] Generate comparison report with charts and analysis
 
 ### Near-term
