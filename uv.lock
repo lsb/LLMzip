@@ -899,9 +899,6 @@ requires-dist = [
     { name = "zstandard" },
 ]
 
-[package.metadata.requires-dev]
-dev = []
-
 [[package]]
 name = "markupsafe"
 version = "3.0.3"

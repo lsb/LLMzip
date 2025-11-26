@@ -61,10 +61,23 @@ def main():
     # Load model
     print("\nLoading model (this may take a minute)...")
     try:
+        # Determine dtype - use bfloat16 if available, otherwise float16
+        dtype = torch.bfloat16
+        if not torch.cuda.is_available():
+            print("  Note: CUDA not available, will use CPU with float32")
+            dtype = torch.float32
+            device_map = None
+        elif not torch.cuda.is_bf16_supported():
+            print("  Note: bfloat16 not supported, using float16")
+            dtype = torch.float16
+            device_map = "auto"
+        else:
+            device_map = "auto"
+        
         model = AutoModelForCausalLM.from_pretrained(
             str(model_dir),
-            dtype=torch.bfloat16,
-            device_map="auto",
+            dtype=dtype,
+            device_map=device_map,
             trust_remote_code=True
         )
         print(f"✓ Model loaded successfully")

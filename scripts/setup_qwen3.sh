@@ -43,10 +43,8 @@ echo "Assembling model files from parts (this may take a few minutes)..."
 if [ ! -f "Makefile" ]; then
     echo "Error: Makefile not found in $MODEL_DIR"
     echo "Creating Makefile with concat target..."
-    cat > Makefile << 'EOF'
-concat:
-	ls model.safetensors.part.* | sort -V | xargs cat > model.safetensors
-EOF
+    # Use printf to ensure proper tab character
+    printf "concat:\n\tls model.safetensors.part.* | sort -V | xargs cat > model.safetensors\n" > Makefile
 fi
 
 make concat
