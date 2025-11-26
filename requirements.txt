@@ -1,9 +1,11 @@
 torch
 torchvision
 torchaudio
+transformers>=4.51.0
 fairscale
 fire
 sentencepiece
 pandas
 matplotlib
 scipy
+zstandard
