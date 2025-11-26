@@ -23,34 +23,45 @@ class Qwen3Model:
         self.model_path = model_path
         self.max_batch_size = max_batch_size
         
-        # Determine device and dtype
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        # Determine device: prefer CUDA, then MPS, otherwise CPU
+        if torch.cuda.is_available():
+            self.device = torch.device('cuda')
+        elif torch.backends.mps.is_available():
+            self.device = torch.device('mps')
+        else:
+            self.device = torch.device('cpu')
         
-        # Use bfloat16 if available, otherwise float16 on CUDA, float32 on CPU
-        if self.device == "cuda":
+        # Determine dtype: CUDA uses bfloat16 if supported else float16
+        # MPS and CPU use float32 for compatibility
+        if self.device.type == "cuda":
             if torch.cuda.is_bf16_supported():
                 self.dtype = torch.bfloat16
-                logger.info("Using bfloat16 dtype")
+                logger.info("Selected dtype: bfloat16 (CUDA with bfloat16 support)")
             else:
                 self.dtype = torch.float16
-                logger.info("Using float16 dtype (bfloat16 not supported)")
+                logger.info("Selected dtype: float16 (CUDA without bfloat16 support)")
         else:
             self.dtype = torch.float32
-            logger.info("Using float32 dtype on CPU")
+            logger.info(f"Selected dtype: float32 (for {self.device.type} compatibility)")
         
         logger.info(f"Loading Qwen3 model from {model_path}...")
-        logger.info(f"Device: {self.device}")
+        logger.info(f"Device: {self.device.type}")
         
-        # Load model
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_path,
-            torch_dtype=self.dtype,
-            device_map="auto" if self.device == "cuda" else None,
-            trust_remote_code=True
-        )
-        
-        # Move to device if not using device_map
-        if self.device == "cpu":
+        # Load model: use device_map='auto' only on CUDA
+        if self.device.type == "cuda":
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_path,
+                torch_dtype=self.dtype,
+                device_map="auto",
+                trust_remote_code=True
+            )
+        else:
+            # For MPS and CPU, load without device_map and move explicitly
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_path,
+                torch_dtype=self.dtype,
+                trust_remote_code=True
+            )
             self.model = self.model.to(self.device)
         
         # Set to eval mode
