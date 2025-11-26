@@ -63,7 +63,7 @@ def main():
     try:
         model = AutoModelForCausalLM.from_pretrained(
             str(model_dir),
-            torch_dtype=torch.bfloat16,
+            dtype=torch.bfloat16,
             device_map="auto",
             trust_remote_code=True
         )
