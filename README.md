@@ -7,6 +7,36 @@ This repository contains the code for our paper [LLMZip: Lossless Text Compressi
 
 This repository is identical to the [LLaMA repository] (https://github.com/facebookresearch/llama) with additional scripts to perform compression. The setup is identical to that of LLaMA. LLaMA Setup is included below for ease of access
 
+### Qwen3-0.6B Setup (Recommended for New Users)
+
+For a more accessible setup using the Qwen3-0.6B model, follow these steps:
+
+1. **Install dependencies with uv**:
+   ```bash
+   # Install uv if not already installed
+   pip install uv
+   
+   # Install dependencies
+   uv sync
+   ```
+
+2. **Set up the Qwen3-0.6B model**:
+   ```bash
+   ./scripts/setup_qwen3.sh
+   ```
+   This will:
+   - Clone the Qwen3-0.6B repository from GitHub
+   - Assemble the model files (72 parts, ~1.5GB total)
+   - Prepare the model for use
+
+3. **Verify the setup**:
+   ```bash
+   uv run python scripts/verify_qwen3.py
+   ```
+   This will load the model and run a simple inference test to confirm everything works.
+
+**Note**: The Qwen3-0.6B model requires Python 3.9+, ~1.5GB of disk space and ~2GB of RAM for inference.
+
 ## Compression
 
 The code below can be used for compressing any text file ($TEXT_FILE) using LLaMa and Arithmetic Coding , the resulting compressed file will be stored in a specified folder ($COMPRESSION_FOLDER). $TARGET_FOLDER is the folder with LLaMa weights and tokenizer.
