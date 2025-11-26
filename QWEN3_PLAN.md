@@ -39,6 +39,9 @@
 
 ### Phase 4: Benchmarking & Analysis
 1. Select representative test datasets:
+   - **Primary benchmark**: enwik9 dataset (first 1MB, 10MB, and 100MB)
+     - Standard compression benchmark from Wikipedia XML dumps
+     - Allows direct comparison with published compression results
    - Plain text (e.g., enwik8, news articles)
    - Code (e.g., Python, JavaScript files)
    - Structured data (e.g., JSON, XML)
@@ -47,10 +50,11 @@
    - zstandard level 19
    - (Optional) zstandard other levels for reference
 3. Generate comparison report with:
-   - Compression ratio charts
+   - Compression ratio charts (especially for enwik9 1MB/10MB/100MB)
    - Speed vs ratio trade-offs
    - Per-file-type analysis
    - Memory overhead comparison
+   - Comparison with published compression benchmarks on enwik9
 
 ## Dependencies
 - Python 3.8+ (existing requirement)
