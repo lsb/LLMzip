@@ -6,7 +6,7 @@ This script creates synthetic test data, compresses it using Qwen3,
 decompresses it, and verifies round-trip correctness.
 
 Usage:
-    python test_qwen3_compression.py [--model_path models/Qwen3-0.6B] [--skip_model_check]
+    python test_qwen3_compression.py [--model_path models/Qwen3-0.6B] [--small_only]
 """
 
 import os
@@ -198,17 +198,14 @@ def main():
     parser = argparse.ArgumentParser(description='Test Qwen3 LLMzip compression/decompression')
     parser.add_argument('--model_path', type=str, default='models/Qwen3-0.6B',
                         help='Path to Qwen3 model directory')
-    parser.add_argument('--skip_model_check', action='store_true',
-                        help='Skip checking if model exists (for CI environments)')
     parser.add_argument('--small_only', action='store_true',
                         help='Only run smallest test (1KB) for quick validation')
     args = parser.parse_args()
     
     # Check if model exists
-    if not args.skip_model_check and not os.path.exists(args.model_path):
+    if not os.path.exists(args.model_path):
         print(f"Error: Model path not found: {args.model_path}")
         print(f"Please run: ./scripts/setup_qwen3.sh")
-        print(f"Or use --skip_model_check flag to skip this check")
         return 1
     
     print("="*60)

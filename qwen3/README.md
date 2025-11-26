@@ -25,9 +25,6 @@ python test_qwen3_compression.py
 
 # Quick validation test (1KB only)
 python test_qwen3_compression.py --small_only
-
-# Skip model existence check (useful in CI)
-python test_qwen3_compression.py --skip_model_check
 ```
 
 The test script creates synthetic text data, compresses it, decompresses it, and verifies that the output matches the input exactly.
