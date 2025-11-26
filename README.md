@@ -14,7 +14,7 @@ For a more accessible setup using the Qwen3-0.6B model, follow these steps:
 1. **Install dependencies with uv**:
    ```bash
    # Install uv if not already installed
-   curl -LsSf https://astral.sh/uv/install.sh | sh
+   pip install uv
    
    # Install dependencies
    uv sync
