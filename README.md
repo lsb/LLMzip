@@ -35,6 +35,17 @@ For a more accessible setup using the Qwen3-0.6B model, follow these steps:
    ```
    This will load the model and run a simple inference test to confirm everything works.
 
+4. **Run compression tests** (optional):
+   ```bash
+   uv run python test_qwen3_compression.py
+   ```
+   This runs compression/decompression round-trip tests with synthetic data (1KB, 10KB, 50KB) to verify correctness.
+   
+   For a quick validation:
+   ```bash
+   uv run python test_qwen3_compression.py --small_only
+   ```
+
 **Note**: The Qwen3-0.6B model requires Python 3.9+, ~1.5GB of disk space and ~2GB of RAM for inference.
 
 ## Compression
