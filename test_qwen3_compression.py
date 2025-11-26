@@ -13,7 +13,6 @@ import os
 import sys
 import argparse
 import tempfile
-import shutil
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -229,7 +228,9 @@ def main():
     results = []
     for size_kb in test_sizes:
         # Use smaller window for smaller files to make tests faster
-        win_len = min(255, size_kb * 10)  # Adjust window based on size
+        # Window length is capped at 255 to keep tests reasonably fast
+        # For larger files, we use a proportional window (size_kb * 10)
+        win_len = min(255, size_kb * 10)
         
         passed = test_compression_roundtrip(
             model_path=args.model_path,
